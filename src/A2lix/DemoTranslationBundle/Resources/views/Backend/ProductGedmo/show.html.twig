@@ -10,9 +10,15 @@
                 <td>{{ entity.id }}</td>
             </tr>
             <tr>
-                <th>Title</th>
-                <td>{{ entity.title }}</td>
+                <th>Slug</th>
+                <td>{{ entity.slug }}</td>
             </tr>
+            {% for locale in available_locales %}
+                <tr>
+                    <th>Title ({{ locale }})</th>
+                    <td>{{ entity.getTitleForLocale(locale) }}</td>
+                </tr>
+            {% endfor %}
             <tr>
                 <th>Description</th>
                 <td>{{ entity.description }}</td>

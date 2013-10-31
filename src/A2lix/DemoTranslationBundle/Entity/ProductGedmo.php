@@ -5,9 +5,11 @@ namespace A2lix\DemoTranslationBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity
+ * @UniqueEntity(fields={"title"})
  * @Gedmo\TranslationEntity(class="A2lix\DemoTranslationBundle\Entity\ProductGedmoTranslation")
  */
 class ProductGedmo
@@ -22,8 +24,15 @@ class ProductGedmo
     protected $id;
 
     /**
-     * @ORM\Column(nullable=true)
+     * @ORM\Column(nullable=false, unique=true)
+     * @Gedmo\Slug(fields={"title"})
+     */
+    protected $slug;
+
+    /**
+     * @ORM\Column(nullable=false, unique=true)
      * @Gedmo\Translatable
+     * @Assert\NotBlank
      */
     protected $title;
 
@@ -51,6 +60,11 @@ class ProductGedmo
         return $this->id;
     }
 
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
     public function setTitle($title)
     {
         $this->title = $title;
@@ -62,12 +76,28 @@ class ProductGedmo
         return $this->title;
     }
 
+    /**
+     * Explicitly get the title for a specific locale.
+     * @param string $locale
+     * @return string|null
+     */
+    public function getTitleForLocale($locale)
+    {
+        foreach ($this->translations as $translation) {
+            if ($translation->getField() === 'title' && $translation->getLocale() === $locale) {
+                return $translation->getContent();
+            }
+        }
+
+        return null;
+    }
+
     public function setDescription($description)
     {
         $this->description = $description;
         return $this;
     }
-    
+
     public function getDescription()
     {
         return $this->description;
