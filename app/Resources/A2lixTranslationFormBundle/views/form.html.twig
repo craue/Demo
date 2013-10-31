@@ -39,7 +39,6 @@
 						{% for field in fields %}
 							{{ form_row(field, {
 									'label': field.vars.label | default(field.vars.name) | trans ~ ' (' ~ locale ~ ')',
-									'description': field.vars.attr.description | default(null),
 								}) }}
 						{% endfor %}
 					{% else %}
@@ -49,7 +48,6 @@
 								{% for field in translationsLocale if field.vars.name == fieldName %}
 									{{ form_row(field, {
 											'label': field.vars.label | default(field.vars.name) | trans ~ ' (' ~ locale ~ ')',
-											'description': field.vars.attr.description | default(null),
 										}) }}
 								{% endfor %}
 							{% endfor %}
