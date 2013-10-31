@@ -3,13 +3,7 @@
 {% block content %}
     <h2>ProductGedmo {{ entity.id ? 'Edition' : 'Creation' }}</h2>
 
-    {{ form_start(editForm) }}
-        {{ form_errors(editForm) }}
-        {{ form_widget(editForm.translations, {
-                'fields': [editForm.title, editForm.description],
-            }) }}
-        {{ form_rest(editForm) }}
-    {{ form_end(editForm) }}
+    {{ form(editForm) }}
 
     <ul class="record_actions">
         <li>

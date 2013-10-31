@@ -8,14 +8,20 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\HttpFoundation\Request;
 
 class ProductGedmoType extends AbstractType
 {
+    private $request;
+    
+    public function __construct(Request $request)
+    {
+        $this->request = $request;
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title')
-            ->add('description')
             ->add('translations', 'a2lix_translations_gedmo', array(
                 'fields' => array(
                     'title' => array(
@@ -49,6 +55,22 @@ class ProductGedmoType extends AbstractType
                     )
                 ))
              ;
+        });
+
+        $currentLocale = $this->request->getLocale();
+        $builder->addEventListener(FormEvents::SUBMIT, function(FormEvent $event) use ($currentLocale) {
+            $form = $event->getForm();
+            $data = $event->getData();
+
+            if (null === $data) {
+                return;
+            }
+
+            if ('de' === $currentLocale) {
+                $data->setTitle($form['translations']['de']['title']->getData());
+            }
+            
+            $event->setData($data);
         });
     }
 

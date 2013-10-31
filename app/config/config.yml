@@ -93,4 +93,3 @@ stof_doctrine_extensions:
 
 a2lix_translation_form:
     locales: %available_locales%
-    templating: A2lixTranslationFormBundle::form.html.twig

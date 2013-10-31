@@ -69,7 +69,7 @@ class ProductGedmoController extends Controller
             $entity = new ProductGedmo();
         }
 
-        $editForm = $this->createForm(new ProductGedmoType(), $entity, array(
+        $editForm = $this->createForm(new ProductGedmoType($request), $entity, array(
             'action' => $this->generateUrl($request->attributes->get('_route'), array('id' => $id))
         ));
         if ($editForm->handleRequest($request)->isSubmitted() && $editForm->isValid()) {
