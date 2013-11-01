@@ -32,7 +32,7 @@ class ProductGedmo
     /**
      * @ORM\Column(nullable=false, unique=true)
      * @Gedmo\Translatable
-     * @Assert\NotBlank
+     * Don't validate for NotBlank directly. Will happen in the form.
      */
     protected $title;
 
