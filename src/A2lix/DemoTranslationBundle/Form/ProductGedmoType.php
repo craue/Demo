@@ -26,6 +26,10 @@ class ProductGedmoType extends AbstractType
                 'fields' => array(
                     'title' => array(
                         'locale_options' => array(
+                            'de' => array(
+                                'required' => true,
+                                'constraints' => new NotBlank(),
+                            ),
                             'en' => array(
                                 'required' => true,
                                 'constraints' => new NotBlank(),
