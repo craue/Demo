@@ -13,12 +13,12 @@ use Symfony\Component\HttpFoundation\Request;
 class ProductGedmoType extends AbstractType
 {
     private $request;
-    
+
     public function __construct(Request $request)
     {
         $this->request = $request;
     }
-    
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
@@ -70,10 +70,12 @@ class ProductGedmoType extends AbstractType
                 return;
             }
 
-            if ('de' === $currentLocale) {
+            // checking the locale is not necessary when the workaround is used
+//          if ('de' === $currentLocale) {
                 $data->setTitle($form['translations']['de']['title']->getData());
-            }
-            
+                $data->setDescription($form['translations']['de']['description']->getData());
+//          }
+
             $event->setData($data);
         });
     }

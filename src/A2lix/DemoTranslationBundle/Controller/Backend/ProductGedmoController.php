@@ -34,7 +34,7 @@ class ProductGedmoController extends Controller
             $deleteForm = $this->createForm('delete', $entity, array(
                 'action' => $this->generateUrl('backend_productGedmo_delete', array('id' => $id))
             ));
-            
+
             return $this->render("A2lixDemoTranslationBundle:Backend\\ProductGedmo:show.html.twig", array(
                 'entity'     => $entity,
                 'deleteForm' => $deleteForm->createView()
@@ -55,6 +55,10 @@ class ProductGedmoController extends Controller
      */
     public function editAction(Request $request, $id = null)
     {
+        // workaround to be able to create/edit an entity while the current locale is not the default locale
+        $translatableListener = $this->get('stof_doctrine_extensions.listener.translatable');
+        $translatableListener->setTranslatableLocale($translatableListener->getDefaultLocale());
+
         $em = $this->getDoctrine()->getManager();
 
         if ($id) {
@@ -102,7 +106,7 @@ class ProductGedmoController extends Controller
 
             $this->get('bc_bootstrap.flash')->success('Deleted!');
         }
-        
+
         return $this->redirect($this->generateUrl('backend_productGedmo'));
     }
 }
